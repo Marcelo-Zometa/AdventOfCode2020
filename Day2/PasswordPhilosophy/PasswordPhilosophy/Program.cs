@@ -14,8 +14,10 @@ namespace PasswordPhilosophy
             List<Password> passwordList = generatePasswordList("C:/Users/engr/source/repos/AdventOfCode2020/Day2/PasswordPhilosophy/PasswordPhilosophy/input.txt");
 
             var countValid = countValidPasswordsPart1(passwordList);
-
             Console.WriteLine($"Part 1: There were {countValid} valid passwords");
+                                 
+            countValid = countValidPasswordsPart2(passwordList);
+            Console.WriteLine($"Part 2: There were {countValid} valid passwords");
         }
 
         private static List<Password> generatePasswordList(string path)
@@ -47,6 +49,35 @@ namespace PasswordPhilosophy
                 var ocurrances = p._Password.Count(c => c == policy.Character.ToCharArray()[0]);
 
                 if((ocurrances >= policy.MinRepetition) && (ocurrances <= policy.MaxRepetition))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        private static int countValidPasswordsPart2(List<Password> passwordList)
+        {
+            int count = 0;
+
+            foreach (Password p in passwordList)
+            {
+                var policy = p._Policy;
+                var isCharThere = false;
+                var password = p._Password;
+                
+                if (password[policy.MinRepetition - 1] == policy.Character.ToCharArray()[0])
+                {
+                    isCharThere = !isCharThere;
+                }
+
+                if (password[policy.MaxRepetition - 1] == policy.Character.ToCharArray()[0])
+                {
+                    isCharThere = !isCharThere;
+                }
+
+                if (isCharThere)
                 {
                     count++;
                 }
